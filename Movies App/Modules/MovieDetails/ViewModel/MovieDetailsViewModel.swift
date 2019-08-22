@@ -36,27 +36,30 @@ class MovieDetailsViewModel: BaseViewModel {
         getTrailers(id: self.movieID)
         getReviews(id: self.movieID)
     }
+
+}
+
+//Trailer Data
+extension MovieDetailsViewModel{
     
-    func getTrailers(id: Int){
-//        showLoader()
+    private func getTrailers(id: Int){
         self.trailers.removeAll()
         APIManager.getTrailer(id: id, successCompletionHandler: { (trailers) in
-//            self.hideLoader()
             guard let trailers = trailers else {return}
             var trailerArray = [TrailerModel]()
             for trailer in trailers {
                 trailerArray.append(TrailerModel(trailer: trailer))
             }
             self.trailers += trailerArray
-            //
         }) { (error) in
             self.alertMessage = error
         }
-        
     }
+    
     func trailersCount() -> Int {
         return self.trailers.count
     }
+    
     func getTrailer(atIndex index: Int)->TrailerModel?{
         if (index >= 0 && index < trailers.count){
             return self.trailers[index]
@@ -70,21 +73,21 @@ class MovieDetailsViewModel: BaseViewModel {
         }
     }
     
+}
+
+//Reviews Data
+extension MovieDetailsViewModel{
     
-    func getReviews(id: Int){
-//        showLoader()
+    private func getReviews(id: Int){
         self.reviews.removeAll()
         APIManager.getReviews(id: id, successCompletionHandler: { (reviews) in
-//            self.hideLoader()
             guard let reviews = reviews else {return}
             var reviewArray = [ReviewsModel]()
             for review in reviews {
                 reviewArray.append(ReviewsModel(review: review))
             }
             self.reviews += reviewArray
-            
         }) { (error) in
-//            self.hideLoader()
             self.alertMessage = error
         }
     }
@@ -100,5 +103,4 @@ class MovieDetailsViewModel: BaseViewModel {
         return nil
     }
 }
-
 

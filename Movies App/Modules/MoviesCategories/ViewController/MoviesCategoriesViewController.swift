@@ -22,18 +22,14 @@ class MoviesCategoriesViewController: BaseViewController {
         viewModel.showLoader = { [weak self] in
             self?.startLoading()
         }
-        
         viewModel.hideLoader = { [weak self] in
             self?.endLoading()
         }
-        
         viewModel.refreshCollectionClosure = {
             [weak self] (indexPath) in
             let cell = self?.tableView.cellForRow(at: indexPath) as! MovieCategoriesTableViewCell
             cell.refresh()
             self?.tableView.reloadData()
-//            let cell = self?.tableView.cellForRow(at: IndexPath) as! MovieCategoriesTableViewCell
-//            self?.tableView.reloadData()
         }
         viewModel.movieDetailsClosure = {
             [weak self] (movie) in
@@ -46,7 +42,8 @@ class MoviesCategoriesViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initVM()
-//        viewModel.setup()
+        self.view.localizeSubViews()
+        setupNavigationBar()
         tableviewSetup()
     }
     
@@ -57,90 +54,25 @@ class MoviesCategoriesViewController: BaseViewController {
         self.tableView.reloadData()
     }
 
-}
-
-extension MoviesCategoriesViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+    private func setupNavigationBar(){
+        let changeLanguage = UIBarButtonItem(title: "changeLanguage".localized, style: .plain, target: self, action: #selector(changeLanguageAction))
+        self.navigationItem.leftBarButtonItem = changeLanguage
+        let favouriteIcon = UIImage(named: "Favourite")
+        let favorite = UIBarButtonItem(image: favouriteIcon, style: .plain, target: self, action: #selector(favouriteAction))
+        let settingsIcon = UIImage(named: "Settings")
+        let arrange = UIBarButtonItem(image: settingsIcon, style: .plain, target: self, action: #selector(settingsAction))
+        self.navigationItem.rightBarButtonItems = [favorite, arrange]
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let category = viewModel.getCategory(atIndex: indexPath.row){
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: MovieCategoriesTableViewCell.ID, for: indexPath) as? MovieCategoriesTableViewCell else {
-                return UITableViewCell()
-            }
-            cell.dataSource = self
-            cell.bind(category: category)
-            //        cell.bindMealPlansCell(image: meal?.image ?? "" , trainingStage: meal?.name ?? "", trainingType: meal?.target ?? "", subscriptionsCount: "\(meal?.noOfMeals ?? -1)")
-            //        cell.selectionStyle = .none
-            return cell
-        }
-        return UITableViewCell()
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        if indexPath.row == selectedRowIndex && thereIsCellTapped {
-            return self.expandedCellHieght
-        }
-        return collapsedCellHieght
+    @objc func changeLanguageAction(){
+        let changeLangVC = ChangeLanguageViewController.create()
+        self.navigationController?.pushViewController(changeLangVC, animated: true)
     }
     
-    //ExpandedCell Configuration
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        self.tableView.beginUpdates()
-        
-        let expandableCell = self.tableView.cellForRow(at: indexPath) as! MovieCategoriesTableViewCell
-        
-        if(self.selectedRowIndex > -1){
-            let x = IndexPath(row: self.selectedRowIndex, section: 0)
-            let expandableCell2 = self.tableView.cellForRow(at: x) as! MovieCategoriesTableViewCell
-            expandableCell2.isCollapsed()
-        }
-        
-        if selectedRowIndex != indexPath.row {
-            self.thereIsCellTapped = true
-            expandableCell.isExpanded()
-            self.selectedRowIndex = indexPath.row
-        } else {
-            // there is no cell selected anymore
-            self.thereIsCellTapped = false
-            expandableCell.isCollapsed()
-            self.selectedRowIndex = -1
-        }
-        viewModel.didTapCategoryCell(atIndex: indexPath.row, indexPath: indexPath)
-        self.tableView.endUpdates()
+    @objc func favouriteAction(){
         
     }
-}
-
-//CollectionViewDelgate
-
-extension MoviesCategoriesViewController: MovieCollectionViewDelegate {
-    func reload() {
-        //
+    @objc func settingsAction(){
+        
     }
-    
-    func getItemIndex(atIndex index: Int) -> MovieModel? {
-        if let movie = viewModel.getMovie(atIndex: index){
-            return movie
-        }
-        return nil
-    }
-    
-    func didSelectCell(atIndex index: Int) {
-        //
-        viewModel.didTapMovieCell(atIndex: index)
-    }
-    
-    func itemsCount() -> Int {
-        return viewModel.moviesCount
-    }
-    
-    
-    
-    
-    
 }

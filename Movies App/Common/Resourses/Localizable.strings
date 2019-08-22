@@ -1,0 +1,15 @@
+/*
+ Localizable.strings
+ Movies App
+ 
+ Created by Ibrahim El-geddawy on 8/20/19.
+ Copyright © 2019 Ibrahim El-geddawy. All rights reserved.
+ */
+
+
+"Popular" = "Popular";
+"Upcoming" = "Upcoming";
+"TopRated" = "Top Rated";
+"Trailer" = "Trailers:";
+"Reviews" = "Reviews:";
+"changeLanguage" = "Change Language";

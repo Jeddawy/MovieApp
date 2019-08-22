@@ -27,6 +27,7 @@ class MovieCategoriesTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         collectionViewSetup()
+        self.contentView.localizeSubViews()
         //        dataSource.reload() = refresh()
     }
     

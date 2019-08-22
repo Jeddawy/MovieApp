@@ -11,7 +11,7 @@ import Alamofire
 import AlamofireObjectMapper
 import ObjectMapper
 
-extension APIManager {
+class APIManager: NSObject{
     
     static func getMovieCategory(category: String,page: Int, successCompletionHandler: @escaping ([MovieResponse]?,Int) -> Void,
                                  failureCompletionHandler: @escaping (String) -> Void){

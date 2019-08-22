@@ -15,3 +15,9 @@ extension Dictionary {
         }
     }
 }
+
+extension Optional where Wrapped == String {
+    var isBlank: Bool {
+        return self == nil || self!.isEmpty
+    }
+}

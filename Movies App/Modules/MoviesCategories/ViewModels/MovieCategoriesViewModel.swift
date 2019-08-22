@@ -11,7 +11,7 @@ import Foundation
 class MovieCategoriesViewModel: BaseViewModel {
     
     fileprivate var cellIndexPath: IndexPath = IndexPath()
-    fileprivate var categoriesArray : [CategoryTableViewCellModel] = [CategoryTableViewCellModel(title: "Popular", endPoint: "popular"), CategoryTableViewCellModel(title: "Upcomming", endPoint: "upcoming"), CategoryTableViewCellModel(title: "Top Rated", endPoint: "top_rated")]
+    fileprivate var categoriesArray : [CategoryTableViewCellModel] = [CategoryTableViewCellModel(title: "Popular".localized, endPoint: "popular"), CategoryTableViewCellModel(title: "Upcoming".localized, endPoint: "upcoming"), CategoryTableViewCellModel(title: "TopRated".localized, endPoint: "top_rated")]
     fileprivate var moviesCategory : [MovieModel] = [MovieModel](){
         didSet {
             self.refreshCollectionClosure?(self.cellIndexPath)
@@ -22,6 +22,9 @@ class MovieCategoriesViewModel: BaseViewModel {
     var refreshCollectionClosure: ((_ indexPath: IndexPath)->())?
     var movieDetailsClosure: ((_ movie: MovieModel)->())?
     
+    func categoriesCount()->Int{
+        return self.categoriesArray.count
+    }
     func getCategory(atIndex index: Int)-> CategoryTableViewCellModel?{
         if (index >= 0 && index < categoriesArray.count){
             return self.categoriesArray[index]
@@ -36,8 +39,6 @@ class MovieCategoriesViewModel: BaseViewModel {
             print(endPoint)
         }
     }
-
-  
 
 }
 //Movie Categorye Data
@@ -63,7 +64,8 @@ extension MovieCategoriesViewModel {
         }
     }
     
-    var moviesCount: Int {
+   
+    func moviesCount()->Int{
         return moviesCategory.count
     }
     

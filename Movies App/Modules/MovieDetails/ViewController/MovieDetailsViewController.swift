@@ -11,7 +11,6 @@ import UIKit
 class MovieDetailsViewController: BaseViewController {
     
     static let ID = "MovieDetailsViewController"
-    var viewModel: MovieDetailsViewModel!
     @IBOutlet weak var coverImageView: UIImageView!
     @IBOutlet weak var posterImageView: UIImageView!
     @IBOutlet weak var movieTitleLabel: UILabel!
@@ -21,6 +20,7 @@ class MovieDetailsViewController: BaseViewController {
     @IBOutlet weak var videosCollectionView: UICollectionView!
     @IBOutlet weak var reviewsTableView: UITableView!
     
+    var viewModel: MovieDetailsViewModel!
     internal let minimumCellSpacing : CGFloat = 15
     internal let cellWidth: CGFloat = 200
     internal let cellHieght: CGFloat = 125
@@ -44,12 +44,15 @@ class MovieDetailsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.setup()
+        self.view.localizeSubViews()
         initVM()
         setupCollectionAndTableView()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.setupSubviews()
     }
+    
     func setupCollectionAndTableView(){
         videosCollectionView.delegate = self
         videosCollectionView.dataSource = self
@@ -80,53 +83,4 @@ class MovieDetailsViewController: BaseViewController {
     
 }
 
-extension MovieDetailsViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.reviewsCount()
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let review = viewModel.getReview(atIndex: indexPath.row){
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ReviewTableViewCell.ID, for: indexPath) as? ReviewTableViewCell else {
-                return UITableViewCell()
-            }
-            cell.bind(review: review)
-            cell.selectionStyle = .none
-            return cell
-        }
-        return UITableViewCell()
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
-}
 
-extension MovieDetailsViewController: UICollectionViewDataSource, UICollectionViewDelegate{
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.trailersCount()
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrailerCollectionViewCell.ID, for: indexPath) as? TrailerCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-            let movie = viewModel.movieDetails()
-            cell.bind(image: movie.backdropPath)
-            return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        viewModel.didTapTrailer(atIndex: indexPath.row)
-    }
-    
-}
-extension MovieDetailsViewController: UICollectionViewDelegateFlowLayout{
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return minimumCellSpacing
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize.init(width: cellWidth, height: cellHieght)
-    }
-}

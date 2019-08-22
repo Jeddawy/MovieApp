@@ -13,10 +13,10 @@ class TrailerCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var trailerImageView: UIImageView!
     
+
     func bind(image: String){
         if let url = URL(string: image) {
             self.trailerImageView.sd_setImage(with: url, completed: nil)
         }
     }
-    
 }

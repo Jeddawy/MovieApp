@@ -8,7 +8,7 @@
 import Foundation
 import ObjectMapper
 
-public final class ReviewsBaseResponse: Mappable{
+class ReviewsBaseResponse: Mappable{
 
   // MARK: Declaration for string constants to be used to decode and also serialize.
   private struct SerializationKeys {
@@ -23,7 +23,7 @@ public final class ReviewsBaseResponse: Mappable{
   public var totalPages: Int?
   public var page: Int?
   public var id: Int?
-  public var results: [Results]?
+  public var results: [ReviewsResponse]?
   public var totalResults: Int?
 
   // MARK: ObjectMapper Initializers

@@ -25,9 +25,9 @@ enum Movie {
         case .category(let value):
             return Urls.main + "/\(value)"
         case .videos(let id):
-            return Urls.main + "/\(id)" + "videos"
+            return Urls.main + "/\(id)" + "/videos"
         case .reviews(let id):
-            return Urls.main + "/\(id)" + "reviews"
+            return Urls.main + "/\(id)" + "/reviews"
         }
     }
 }

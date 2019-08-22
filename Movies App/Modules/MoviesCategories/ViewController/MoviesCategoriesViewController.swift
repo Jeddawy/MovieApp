@@ -16,9 +16,9 @@ class MoviesCategoriesViewController: BaseViewController {
     var selectedRowIndex = -1
     var expandedCellHieght : CGFloat = 167
     var collapsedCellHieght : CGFloat = 40
-//    var viewModel : MovieCategoriesViewModel = MovieCategoriesViewModel()
     lazy var viewModel = MovieCategoriesViewModel()
-    fileprivate func initVM(){
+    
+    private func initVM(){
         viewModel.showLoader = { [weak self] in
             self?.startLoading()
         }
@@ -27,14 +27,7 @@ class MoviesCategoriesViewController: BaseViewController {
             self?.endLoading()
         }
         
-//        viewModel.showAlertClosure = {
-//            [weak self] () in
-//            if let message = self?.viewModel.alertMessage {
-//                self?.showAlert( message )
-//            }
-//        }
-        
-        viewModel.refreshClosure = {
+        viewModel.refreshCollectionClosure = {
             [weak self] (indexPath) in
             let cell = self?.tableView.cellForRow(at: indexPath) as! MovieCategoriesTableViewCell
             cell.refresh()

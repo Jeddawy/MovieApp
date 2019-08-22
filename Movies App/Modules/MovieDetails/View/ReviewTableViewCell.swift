@@ -24,5 +24,10 @@ class ReviewTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func bind(review: ReviewsModel){
+        self.commentLabel.text = review.content
+        self.authorLabel.text = review.author
+    }
 
 }

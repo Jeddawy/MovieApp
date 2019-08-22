@@ -13,7 +13,7 @@ class BaseViewModel {
     var showLoader: (()-> Void)!
     var hideLoader: (()-> Void)!
     var showAlertClosure: (()->())?
-    var refreshClosure: ((_ indexPath: IndexPath)->())?
+    var refreshClosure: (()->())?
     var alertMessage: String? {
         didSet {
             self.showAlertClosure?()
